@@ -139,7 +139,8 @@ func main() {
 			time.Sleep(10 * time.Second)
 			if err := db.Ping(); err != nil {
 				log.Printf("Database connection lost: %v", err)
-				if reconnErr := db.Reconnect(cfg.GetConnectionString()); reconnErr != nil {
+
+				if reconnErr := db.Reconnect(); reconnErr != nil {
 					log.Printf("Failed to reconnect: %v", reconnErr)
 				} else {
 					log.Printf("Successfully reconnected to the database")
