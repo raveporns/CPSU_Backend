@@ -1,6 +1,6 @@
 FROM minio/minio:latest
 
-COPY init.sh /init.sh
+COPY minio/init.sh /init.sh
 
 RUN chmod +x /init.sh
 
