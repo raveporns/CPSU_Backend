@@ -10,7 +10,8 @@ import (
 )
 
 type PostgresDatabase struct {
-	db *sql.DB
+	db      *sql.DB
+	connStr string
 }
 
 func NewPostgresDatabase(connStr string) (*PostgresDatabase, error) {
@@ -20,7 +21,6 @@ func NewPostgresDatabase(connStr string) (*PostgresDatabase, error) {
 		return nil, fmt.Errorf("failed to connect to database: %v", err)
 	}
 
-	// สำคัญสำหรับ Supabase pooler
 	db.SetMaxOpenConns(5)
 	db.SetMaxIdleConns(5)
 	db.SetConnMaxLifetime(time.Minute)
@@ -32,7 +32,10 @@ func NewPostgresDatabase(connStr string) (*PostgresDatabase, error) {
 		return nil, fmt.Errorf("failed to ping database: %v", err)
 	}
 
-	return &PostgresDatabase{db: db}, nil
+	return &PostgresDatabase{
+		db:      db,
+		connStr: connStr,
+	}, nil
 }
 
 func (p *PostgresDatabase) GetDB() *sql.DB {
@@ -51,8 +54,9 @@ func (p *PostgresDatabase) Ping() error {
 	return p.db.Ping()
 }
 
-func (p *PostgresDatabase) Reconnect(connStr string) error {
-	newDB, err := sql.Open("postgres", connStr)
+func (p *PostgresDatabase) Reconnect() error {
+
+	newDB, err := sql.Open("postgres", p.connStr)
 	if err != nil {
 		return err
 	}
