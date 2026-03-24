@@ -74,9 +74,6 @@ func LoadConfig() (Config, error) {
 		CalendarID:         viper.GetString("CALENDAR.ID"),
 	}
 
-	fmt.Println("USER =", viper.GetString("POSTGRES.USER"))
-	fmt.Println("HOST =", viper.GetString("POSTGRES.HOST"))
-	
 	return config, nil
 }
 
