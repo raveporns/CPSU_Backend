@@ -30,9 +30,8 @@ type Config struct {
 
 func LoadConfig() (Config, error) {
 
-	err := godotenv.Load(".env")
-	if err != nil {
-		log.Fatalf("Error loading .env file: %v", err)
+	if err := godotenv.Load(".env"); err != nil {
+		log.Println(".env not found, using environment variables")
 	}
 
 	viper.AutomaticEnv()
