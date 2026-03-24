@@ -45,12 +45,12 @@ func LoadConfig() (Config, error) {
 	viper.SetDefault("POSTGRES.DBNAME", "postgres")
 	viper.SetDefault("POSTGRES.SSLMODE", "require")
 
-	viper.SetDefault("MINIO_ENDPOINT", "localhost:9000")
+	viper.SetDefault("MINIO_ENDPOINT", "minio-production-212b.up.railway.app")
 	viper.SetDefault("MINIO_ACCESS_KEY", "minioadmin")
 	viper.SetDefault("MINIO_SECRET_KEY", "minioadmin123")
 	viper.SetDefault("MINIO_BUCKET", "images")
 	viper.SetDefault("MINIO_USE_SSL", false)
-	viper.SetDefault("MINIO_PUBLIC_BASE_URL", "http://localhost:9000")
+	viper.SetDefault("MINIO_PUBLIC_BASE_URL", "https://minio-production-212b.up.railway.app")
 
 	viper.SetDefault("CALENDAR.ID", "")
 
