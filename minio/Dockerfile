@@ -1,7 +1,7 @@
 FROM minio/minio:latest
 
-COPY minio/init.sh /init.sh
+COPY init.sh /init.sh
 
 RUN chmod +x /init.sh
 
-CMD ["/init.sh"]
+ENTRYPOINT ["/bin/sh", "/init.sh"]
