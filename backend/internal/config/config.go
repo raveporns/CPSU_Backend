@@ -38,12 +38,12 @@ func LoadConfig() (Config, error) {
 	viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
 
 	// Set default values
-	viper.SetDefault("POSTGRES.HOST", "localhost")
-	viper.SetDefault("POSTGRES.PORT", 5432)
-	viper.SetDefault("POSTGRES.USER", "postgres")
+	viper.SetDefault("POSTGRES.HOST", "")
+	viper.SetDefault("POSTGRES.PORT", 6543)
+	viper.SetDefault("POSTGRES.USER", "")
 	viper.SetDefault("POSTGRES.PASSWORD", "")
-	viper.SetDefault("POSTGRES.DBNAME", "cpsu")
-	viper.SetDefault("POSTGRES.SSLMODE", "disable")
+	viper.SetDefault("POSTGRES.DBNAME", "postgres")
+	viper.SetDefault("POSTGRES.SSLMODE", "require")
 
 	viper.SetDefault("MINIO_ENDPOINT", "localhost:9000")
 	viper.SetDefault("MINIO_ACCESS_KEY", "minioadmin")
