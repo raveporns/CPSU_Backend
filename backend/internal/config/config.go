@@ -78,11 +78,13 @@ func LoadConfig() (Config, error) {
 }
 
 func (c *Config) GetConnectionString() string {
-	return fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=%s",
+	return fmt.Sprintf(
+		"host=%s port=%d user=%s password=%s dbname=%s sslmode=%s binary_parameters=yes",
 		c.DatabaseHost,
 		c.DatabasePort,
 		c.DatabaseUser,
 		c.DatabasePassword,
 		c.DatabaseName,
-		c.DatabaseSSLMode)
+		c.DatabaseSSLMode,
+	)
 }
