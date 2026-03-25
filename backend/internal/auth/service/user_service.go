@@ -45,17 +45,28 @@ func (s *UserService) CreateUser(req models.UserRequest, ipAddress string, userA
 	return nil
 }
 
-func (s *UserService) DeleteUser(targetUserID int, actorUserID int, ipAddress string, userAgent string) error {
+func (s *UserService) DeleteUser(
+	targetUserID int,
+	actorUserID int,
+	ipAddress string,
+	userAgent string,
+) error {
+
 	if err := s.UserRepo.DeleteUser(targetUserID); err != nil {
 		return err
 	}
 
-	_ = s.AuditRepo.LogAudit(
-		actorUserID, "delete", "user",
-		strconv.Itoa(targetUserID),
-		map[string]interface{}{},
-		ipAddress, userAgent,
-	)
+	if s.AuditRepo != nil {
+		_ = s.AuditRepo.LogAudit(
+			actorUserID,
+			"delete",
+			"user",
+			strconv.Itoa(targetUserID),
+			map[string]interface{}{},
+			ipAddress,
+			userAgent,
+		)
+	}
 
 	return nil
 }
