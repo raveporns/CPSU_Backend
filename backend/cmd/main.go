@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"log"
-	"strings"
+	// "strings"
 	"time"
 
 	"github.com/gin-contrib/cors"
@@ -154,40 +154,9 @@ func main() {
 	r := gin.Default()
 
 	r.Use(cors.New(cors.Config{
-		AllowOriginFunc: func(origin string) bool {
-
-			if strings.Contains(origin, "vercel.app") {
-				return true
-			}
-
-			if origin == "http://localhost:3000" {
-				return true
-			}
-
-			return false
-		},
-
-		AllowMethods: []string{
-			"GET",
-			"POST",
-			"PUT",
-			"DELETE",
-			"OPTIONS",
-		},
-
-		AllowHeaders: []string{
-			"Origin",
-			"Content-Type",
-			"Authorization",
-		},
-
-		ExposeHeaders: []string{
-			"Content-Length",
-		},
-
-		AllowCredentials: true,
-
-		MaxAge: 12 * time.Hour,
+		AllowAllOrigins: true,
+		AllowMethods:    []string{"*"},
+		AllowHeaders:    []string{"*"},
 	}))
 
 	r.Use(TimeoutMiddleware(5 * time.Second))
