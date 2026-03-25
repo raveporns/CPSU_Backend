@@ -3,8 +3,6 @@ package handler
 import (
 	"net/http"
 	"strconv"
-	"database/sql"
-	"errors"
 
 	"cpsu/internal/auth/models"
 	"cpsu/internal/auth/service"
@@ -64,9 +62,7 @@ func (h *UserHandler) CreateUser(c *gin.Context) {
 }
 
 func (h *UserHandler) DeleteUser(c *gin.Context) {
-
 	idParam := c.Param("id")
-
 	targetUserID, err := strconv.Atoi(idParam)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid user id"})
@@ -79,30 +75,15 @@ func (h *UserHandler) DeleteUser(c *gin.Context) {
 		return
 	}
 
-	err = h.UserService.DeleteUser(
+	if err := h.UserService.DeleteUser(
 		targetUserID,
 		actorUserID,
 		c.ClientIP(),
 		c.GetHeader("User-Agent"),
-	)
-
-	if err != nil {
-
-		// ✅ เพิ่มอันนี้
-		if errors.Is(err, sql.ErrNoRows) {
-			c.JSON(http.StatusNotFound, gin.H{
-				"error": "user not found or already deleted",
-			})
-			return
-		}
-
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": err.Error(),
-		})
+	); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"message": "user deleted",
-	})
+	c.JSON(http.StatusOK, gin.H{"message": "user deleted"})
 }

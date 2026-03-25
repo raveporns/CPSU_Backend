@@ -128,7 +128,6 @@ func (r *UserRepository) DeleteUser(id int) error {
 		WHERE user_id = $1
 		  AND deleted_at IS NULL
 	`
-
 	result, err := r.db.Exec(query, id)
 	if err != nil {
 		return err
@@ -138,10 +137,8 @@ func (r *UserRepository) DeleteUser(id int) error {
 	if err != nil {
 		return err
 	}
-
-	// ✅ ไม่ต้อง return error
 	if rowsAffected == 0 {
-		return nil
+		return sql.ErrNoRows
 	}
 
 	return nil
