@@ -156,11 +156,11 @@ func main() {
 	r.Use(cors.New(cors.Config{
 		AllowOriginFunc: func(origin string) bool {
 
-			if strings.HasSuffix(origin, "vercel.app") {
+			if strings.Contains(origin, "vercel.app") {
 				return true
 			}
 
-			if strings.Contains(origin, "localhost") {
+			if origin == "http://localhost:3000" {
 				return true
 			}
 
@@ -168,18 +168,28 @@ func main() {
 		},
 
 		AllowMethods: []string{
-			"GET", "POST", "PUT", "DELETE", "OPTIONS",
+			"GET",
+			"POST",
+			"PUT",
+			"DELETE",
+			"OPTIONS",
 		},
 
 		AllowHeaders: []string{
 			"Origin",
 			"Content-Type",
-			"Accept",
 			"Authorization",
 		},
 
+		ExposeHeaders: []string{
+			"Content-Length",
+		},
+
 		AllowCredentials: true,
+
+		MaxAge: 12 * time.Hour,
 	}))
+
 	r.Use(TimeoutMiddleware(5 * time.Second))
 
 	r.GET("/health", func(c *gin.Context) {
