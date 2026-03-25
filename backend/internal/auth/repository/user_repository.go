@@ -141,10 +141,6 @@ func (r *UserRepository) DeleteUser(id int) error {
 		return sql.ErrNoRows
 	}
 
-	if rowsAffected == 0 {
-		return nil
-	}
-
 	return nil
 }
 
