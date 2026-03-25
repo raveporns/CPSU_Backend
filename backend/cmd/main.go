@@ -175,11 +175,7 @@ func main() {
 			"OPTIONS",
 		},
 
-		AllowHeaders: []string{
-			"Origin",
-			"Content-Type",
-			"Authorization",
-		},
+		AllowHeaders: []string{"*"},
 
 		ExposeHeaders: []string{
 			"Content-Length",
@@ -189,6 +185,10 @@ func main() {
 
 		MaxAge: 12 * time.Hour,
 	}))
+
+	r.OPTIONS("/*path", func(c *gin.Context) {
+		c.Status(200)
+	})
 
 	r.Use(TimeoutMiddleware(5 * time.Second))
 
